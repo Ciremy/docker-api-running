@@ -17,14 +17,14 @@ app.get("/", (req, res) => {
 //   res.send(serverList);
 // });
 
-app.get("/launch", (req, res) => {
+app.post("/launch", (req, res) => {
   let response;
   const subProcess = require("child_process");
   subProcess.exec(
-    `docker rm api --force
+    `docker rm ${req.body.dockerName} --force
     docker rm $(docker ps --filter status=exited -q)
-    docker build /gitea/git/repositories/feur/api.git -t api/node-web-app  
-    docker run -p 8000:8000 --name api -d api/node-web-app`,
+    docker build ${req.body.repo} -t ${req.body.imageName}  
+    docker run -p ${req.body.port} --name ${req.body.dockerName} -d ${req.body.imageName}`,
 
     (err, stdout, stderr) => {
       if (err) {
