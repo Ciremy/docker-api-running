@@ -17,14 +17,14 @@ app.get("/", (req, res) => {
 //   res.send(serverList);
 // });
 
-app.post("/launch", (req, res) => {
+app.get("/launch", (req, res) => {
   let response;
   const subProcess = require("child_process");
   subProcess.exec(
-    `docker rm ${req.body.dockerName} --force
+    `docker rm api --force
     docker rm $(docker ps --filter status=exited -q)
-    docker build ${req.body.repo} -t ${req.body.imageName}  
-    docker run -p ${req.body.port} --name ${req.body.dockerName} -d ${req.body.imageName}`,
+    docker build /Users/ciremy/work/ynov/infra-api -t api/node-web-app  
+    docker run -p 8000:8000 --name api -d api/node-web-app`,
 
     (err, stdout, stderr) => {
       if (err) {
