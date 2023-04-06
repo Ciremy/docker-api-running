@@ -23,7 +23,7 @@ app.get("/launch", (req, res) => {
   subProcess.exec(
     `docker rm api --force
     docker rm $(docker ps --filter status=exited -q)
-    docker build /Users/ciremy/work/ynov/infra-api -t api/node-web-app  
+    docker build /gitea/git/repositories/feur/api.git -t api/node-web-app  
     docker run -p 8000:8000 --name api -d api/node-web-app`,
 
     (err, stdout, stderr) => {
